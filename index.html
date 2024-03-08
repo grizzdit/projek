@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toko</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .product {
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .product img {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
+        transition: all ease-in-out 0.3s;
+      }
+
+      .product img:hover {
+        scale: 1.1;
+        margin-bottom: 10px;
+      }
+
+      #cart {
+        margin-top: 20px;
+        border-top: 2px solid #333;
+        padding-top: 10px;
+      }
+
+      #cart-items {
+        list-style: none;
+        padding: 0;
+      }
+
+      #cart-items li {
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Style untuk informasi pelanggan */
+      #customer-info {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 20px;
+      }
+
+      #customer-info label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      #customer-info input,
+      #customer-info select {
+        width: calc(100% - 12px); /* 12px adalah total padding */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-bottom: 10px;
+      }
+
+      #customer-info button {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Toko Aboy</h1>
+      <div class="products">
+        <div class="product">
+          <img src="download.jpg" alt="Kemeja" />
+          <h2>Kemeja</h2>
+          <p>Rp. 20.000</p>
+          <button onclick="addToCart('Kemeja', 20000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="download (1).jpg" alt="Jas" />
+          <h2>Jas</h2>
+          <p>Rp. 35.000</p>
+          <button onclick="addToCart('Jas', 35000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="download (2).jpg" alt="Baju Koko Full Set" />
+          <h2>Baju Koko Full Set</h2>
+          <p>Rp. 25.000</p>
+          <button onclick="addToCart('Baju Koko Full Set', 25000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="download (3).jpg" alt="Baju" />
+          <h2>Baju</h2>
+          <p>Rp. 30.000</p>
+          <button onclick="addToCart('Baju', 30000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="download (4).jpg" alt="Celana" />
+          <h2>Celana</h2>
+          <p>Rp. 40.000</p>
+          <button onclick="addToCart('Celana', 40000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="images (1).jpg" alt="Hoodie" />
+          <h2>Hoodie</h2>
+          <p>Rp. 27.000</p>
+          <button onclick="addToCart('Hoodie', 27000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="images (2).jpg" alt="Jas Ujan" />
+          <h2>Jas Ujan</h2>
+          <p>Rp. 32.000</p>
+          <button onclick="addToCart('Jas Ujan', 32000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="tutup.jpg" alt="Tutup Odol" />
+          <h2>Tutup Odol</h2>
+          <p>Rp. 2.800.000.000</p>
+          <button onclick="addToCart('Tutup Odol', 2800000000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+        <div class="product">
+          <img src="download (5).jpg" alt="Tas" />
+          <h2>Tas</h2>
+          <p>Rp. 33.000</p>
+          <button onclick="addToCart('Tas', 33000)">
+            Tambahkan ke Keranjang
+          </button>
+        </div>
+      </div>
+      <div id="cart">
+        <h2>Keranjang</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: Rp<span id="total">0</span></p>
+        <h3>Informasi Pembeli</h3>
+        <div id="customer-info">
+          <label for="name">Nama:</label>
+          <input type="text" id="name" placeholder="Masukkan nama Anda" />
+          <label for="address">Alamat:</label>
+          <input type="text" id="address" placeholder="Masukkan alamat Anda" />
+          <label for="payment-method">Metode Pembayaran:</label>
+          <select id="payment-method">
+            <option value="cash">Bayar di Tempat</option>
+            <option value="bank">Transfer Bank</option>
+          </select>
+          <button onclick="checkout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var cartItems = [];
+
+      function addToCart(itemName, price) {
+        cartItems.push({ name: itemName, price: price });
+        updateCart();
+      }
+
+      function updateCart() {
+        var cartList = document.getElementById("cart-items");
+        var total = 0;
+        cartList.innerHTML = "";
+        cartItems.forEach(function (item) {
+          var listItem = document.createElement("li");
+          listItem.textContent = item.name + " - Rp" + formatRupiah(item.price);
+          cartList.appendChild(listItem);
+          total += item.price;
+        });
+        document.getElementById("total").textContent = "" + formatRupiah(total);
+      }
+
+      // Ganti alert dengan SweetAlert
+      function checkout() {
+        var name = document.getElementById("name").value;
+        var address = document.getElementById("address").value;
+        var paymentMethod = document.getElementById("payment-method").value;
+
+        if (cartItems.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Keranjang belanja Anda kosong!",
+          });
+          return;
+        }
+
+        if (!name || !address) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Silakan isi nama dan alamat Anda.",
+          });
+          return;
+        }
+
+        var confirmationMessage = "Apakah Anda yakin ingin checkout?\n";
+
+        Swal.fire({
+          title: "Cek kembali pesanan anda!",
+          text: confirmationMessage,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, checkout!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              "Terima kasih " + name + "!",
+              "Pembelian Anda telah dikonfirmasi.",
+              "success"
+            );
+            cartItems = [];
+            updateCart();
+            // Reset informasi pembeli
+            document.getElementById("name").value = "";
+            document.getElementById("address").value = "";
+          }
+        });
+      }
+
+      function formatRupiah(angka) {
+        var reverse = angka.toString().split("").reverse().join(""),
+          ribuan = reverse.match(/\d{1,3}/g);
+        ribuan = ribuan.join(".").split("").reverse().join("");
+        return ribuan;
+      }
+
+      function calculateTotal() {
+        var total = 0;
+        cartItems.forEach(function (item) {
+          total += item.price;
+        });
+        return total;
+      }
+    </script>
+  </body>
+</html>
